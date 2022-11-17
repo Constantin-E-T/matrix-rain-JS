@@ -45,6 +45,10 @@ class Effect {
 const effect = new Effect(canvas.width, canvas.height);
 
 function animate() {
+    // draw fade away over canvas
+    ctx.fillStyle = 'rgba(0, 0, 0, .05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // end
     ctx.font = effect.fontSize + 'px monospace';
     effect.symbols.forEach(symbol => symbol.draw(ctx));
     requestAnimationFrame(animate);
