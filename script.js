@@ -3,6 +3,14 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+let gradient = ctx.createLinearGradient(canvas.width / 2, canvas.height /2, 100, canvas.width /2, canvas.height /2, canvas.width / 2);
+gradient.addColorStop(0, 'red');
+gradient.addColorStop(0.2, 'yellow');
+gradient.addColorStop(0.4, 'blue');
+gradient.addColorStop(0.6, 'cyan');
+gradient.addColorStop(0.8, 'green');
+gradient.addColorStop(1, 'magenta');
+
 class Symbol {
     constructor(x, y, fontSize, canvasHeight){
         this.characters = 'ﾊ ﾐ ﾋ ｰ ｳ ｼ ﾅ ﾓ ﾆ ｻ ﾜ ﾂ ｵ ﾘ ｱ ﾎ ﾃ ﾏ ｹ ﾒ ｴ ｶ ｷ ﾑ ﾕ ﾗ ｾ ﾈ ｽ ﾀ ﾇ ﾍ 0123456789QWERTYUOPALKSJDHGFZMXNCBV';
@@ -40,6 +48,13 @@ class Effect {
             this.symbols[i] = new Symbol(i, 0, this.fontSize, this.canvasHeight);
         }
     }
+    resize(width, height){
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+        this.colums = this.canvasWidth / this.fontSize;
+        this.symbols = [];
+        this.#initialize();
+    }
 }
 
 const effect = new Effect(canvas.width, canvas.height);
@@ -56,7 +71,7 @@ function animate(timeStamp) {
         ctx.fillStyle = 'rgba(0, 0, 0, .05)';
         ctx.textAlign = 'center';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0aff0a'
+        ctx.fillStyle = gradient;
         // end
         ctx.font = effect.fontSize + 'px monospace';
         effect.symbols.forEach(symbol => symbol.draw(ctx));
@@ -73,4 +88,12 @@ animate(0);
 window.addEventListener('resize', function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    effect.resize(canvas.width, canvas.height);
+    gradient = ctx.createLinearGradient(canvas.width / 2, canvas.height /2, 100, canvas.width /2, canvas.height /2, canvas.width / 2);
+    gradient.addColorStop(0, 'red');
+    gradient.addColorStop(0.2, 'yellow');
+    gradient.addColorStop(0.4, 'blue');
+    gradient.addColorStop(0.6, 'cyan');
+    gradient.addColorStop(0.8, 'green');
+    gradient.addColorStop(1, 'magenta');
 });
